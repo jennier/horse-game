@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block head_title %}
+{{ horse.name }} | {{ block.super }}
+{% endblock head_title %}
+
+
+ {% block post_detail_link %}
+  <li><a href='{{ horse.get_absolute_url }}'>{{ horse.name }}</a></li>
+  {% endblock %}
+
+{% block content %}
+<div class='col-sm-6 col-sm-offset-3'>
+<h1>{{ horse.name }} {% if user.is_staff %}<small class="text-muted"><a href="{{ horse.get_admin_url }}">Edit</a></small>{% endif %}</h1>
+<p>{{ horse.age }} year old {{ horse.color }} {{ horse.breed }} {{ horse.gender }}, standing {{ horse.height }}hh</p>
+<p>Owned by {{ horse.owner }}</p>
+</div>
+<div class="row">
+<div class="col-sm-6">
+	<h3>Stats</h3>
+{% for stat in horse.visible_stats %}
+	<div class="row">
+		<div class="col-sm-2">{{ stat.stat }}</div>
+		<div class="col-sm-3">
+			<div class="progress">
+				<div class="progress-bar" role="progressbar" style="width: {{ stat.value|floatformat:"0" }}%" aria-valuenow="{{ stat.value|floatformat:"0" }}" aria-valuemin="0" aria-valuemax="100"></div> 
+			</div>  
+		</div>
+		<div class="col-sm-1">{{ stat.value|floatformat:"0" }}</div>
+	</div>
+{% endfor %}
+</div>
+</div>
+<div class="row">
+<div class="col-sm-6">
+	<h3>Genetics</h3>
+{% for gene in horse.genotype.all %}
+	<div class="row">
+		<div class="col-sm-4">{{ gene.gene }}</div>
+		<div class="col-sm-2">{{ gene.show_genotype_str }}</div>
+	</div>
+{% endfor %}
+</div>
+</div>
+{% endblock content %}

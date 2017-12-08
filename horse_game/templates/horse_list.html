@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class='col-sm-6 col-sm-offset-3'>
+    <h1>{{ title }}</h1>
+<form method='GET' action='' class='row'>
+        <div class='col-sm-6'>
+            <div class='input-group'>
+                <input class='form-control' type='text' name='q' placeholder='Search posts' value='{{ request.GET.q }}'/>
+                <span class='input-group-btn'>
+                    <!-- <input class='btn btn-default' type='submit' value='Search' /> -->
+                    <button class='btn btn-default' type='submit'>Search <i class="fa fa-search"></i></button>
+                </span>
+            </div>
+        </div>
+</form>
+{% if not horse_list %}
+	<h2>There are no horses to see. <a href="{{ horse.show_create_url }}">Create One?</a></h2>
+{% endif %}
+
+{% for horse in horse_list %}
+<div class="row">
+  <div class="col-sm-12">
+	  <h2><a href="{{ horse.get_absolute_url }}">{{ horse.name }}</a></h2>
+	  <p>{{ horse.age }} year old {{ horse.color }} {{ horse.breed }}</p>
+	  <p>Owned by: {{ horse.owner }}</p>
+    </div>
+<hr/>
+</div>
+{% endfor %}
+
+
+{% if is_paginated %}
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+
+
+
+
+</div>
+
+{% endblock content %}

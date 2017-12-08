@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block head_title %}
+{{ user.username }} | {{ block.super }}
+{% endblock head_title %}
+
+
+ {% block post_detail_link %}
+  <li><a href='{{ user.get_absolute_url }}'>{{ user.title }}</a></li>
+  {% endblock %}
+
+{% block content %}
+<div class='col-sm-6 col-sm-offset-3'>
+<h1>{{ user.username }}</h1>
+{% endblock content %}
